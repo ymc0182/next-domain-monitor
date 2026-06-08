@@ -25,7 +25,7 @@ export const MONITORED_DOMAINS = [
 
 ## 环境变量
 
-在 Vercel 控制台中设置环境变量。
+在 Vercel 控制台中设置环境变量，或在部署时设置 Environment Variables。
 
 本地在根目录创建 `.env.local` 文件。
 
