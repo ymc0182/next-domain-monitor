@@ -18,6 +18,7 @@ export async function GET(request: Request) {
             if (!res.ok) continue;
             const data = await res.json();
             const expirationDateStr = data.events?.find((e: any) => e.eventAction === 'expiration')?.eventDate;
+            console.log(`domain:${domain}`);
 
             if (expirationDateStr) {
                 const expireDate = new Date(expirationDateStr);
@@ -32,6 +33,8 @@ export async function GET(request: Request) {
             console.error(`自动检测域名 ${domain} 出错:`, e);
         }
     }
+
+    console.log(expiringDomains);
 
     if (expiringDomains.length > 0) {
         const emailHtmlBody = expiringDomains
