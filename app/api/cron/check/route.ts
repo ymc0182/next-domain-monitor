@@ -18,7 +18,7 @@ export async function GET(request: Request) {
             if (!res.ok) continue;
             const data = await res.json();
             const expirationDateStr = data.events?.find((e: any) => e.eventAction === 'expiration')?.eventDate;
-            console.log(`domain:${domain}`);
+            console.log(`${domain} (${expirationDateStr})`);
 
             if (expirationDateStr) {
                 const expireDate = new Date(expirationDateStr);
