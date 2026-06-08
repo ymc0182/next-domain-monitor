@@ -1,36 +1,60 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+域名到期状态监控，每天 UTC 00:00 定时巡检域名状态，即将到期时用 Resend API发送邮件提醒。
 
-## Getting Started
+# 开始使用
 
-First, run the development server:
+## 安装 Resend
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+```
+//https://resend.com
+
+npm install resend
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 配置域名
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+将 `/config/domain.json` 中的域名修改为你的域名。
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+export const MONITORED_DOMAINS = [
+    'jb18.cm',
+    'baidu.com',
+    'qq.com',
+    'google.com',
+];
+```
 
-## Learn More
+## 环境变量
 
-To learn more about Next.js, take a look at the following resources:
+在 Vercel 控制台中设置环境变量。
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+本地在根目录创建 `.env.local` 文件。
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+//是否开启访问密码（可选）
+NEXT_PUBLIC_REQUIRE_AUTH=true
 
-## Deploy on Vercel
+//访问密码（可选）
+DASHBOARD_PASSWORD=1234
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+//Resend 密钥
+RESEND_API_KEY=re_xxx
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+//Resend 设置的域名邮箱，邮箱前缀可随意设置，如此处的 notice
+RESEND_FROM_EMAIL=notice@xxx.com
+
+//收件人邮箱
+RESEND_TO_EMAIL=your_real_email@xxx.com
+
+//定时路由密钥
+CRON_SECRET=my_local_secret_xxx
+```
+
+## 测试邮件
+
+在本地运行开发环境
+
+```
+npm run dev
+```
+
+浏览器打开 `/test-email` 可测试发送会返回错误信息，测试页面必须设置 `DASHBOARD_PASSWORD` 访问密码环境变量。
